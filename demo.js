@@ -1,6 +1,3 @@
-let geoJson;
-fetch( './municipios_sc.json').then(r => r.json()).then(j => geoJson = j);
-
 async function init() {
 
     const latLangUnivali = [-27.598023, -48.619444];
@@ -56,6 +53,9 @@ async function init() {
     });
 
     // Layer com GeoJson - Municípios de SC
+    const request = await fetch( 'municipios_sc.json');
+    const geoJson = await request.json();
+
     const geojson_layer = L.geoJSON(geoJson , {
         "color": "#ff7800",
         "weight": 5,
