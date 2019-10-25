@@ -20,12 +20,21 @@ async function init() {
 
     univaliMarker.addTo(map);
 
-    // Layer do MapBox
+    // Layer do Stamen
     const stamen = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
         attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         subdomains: 'abcd',
         minZoom: 1,
         maxZoom: 16,
+        ext: 'jpg'
+    });
+
+    const stamen_transparente = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        subdomains: 'abcd',
+        minZoom: 1,
+        maxZoom: 16,
+        opacity: 0.5,
         ext: 'jpg'
     });
 
@@ -57,9 +66,9 @@ async function init() {
     const geoJson = await request.json();
 
     const geojson_layer = L.geoJSON(geoJson , {
-        "color": "#ff7800",
-        "weight": 5,
-        "opacity": 0.65
+        color: "#ff7800",
+        weight: 5,
+        opacity: 0.65
     });
 
     // Extensão do leaflet com várias layers gratuitas
@@ -69,14 +78,15 @@ async function init() {
     L.control.layers(
         {
             "OpenStreetMaps": openstreetmap,
-            "Topografia": openstreetmap_topografia,
+            "Topografia - OSM": openstreetmap_topografia,
             "MapBox": mapbox,
             "Stamen Watercolor": stamen,
         },
         // Overlay na layer principal
         {
-            "Transporte": openstreetmap_transporte,
-            "GeoJson": geojson_layer
+            "Transporte - OSM": openstreetmap_transporte,
+            "GeoJson": geojson_layer,
+            "Stamen (Transparente)": stamen_transparente,
         }
     ).addTo(map);
 
